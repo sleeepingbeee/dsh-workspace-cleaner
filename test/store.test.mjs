@@ -8,7 +8,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { mkdir, mkdtemp, readFile, stat, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import * as store from '../lib/store.js'
 
 const LOG = 'session.v4.jsonl.zstd'
@@ -54,10 +54,14 @@ async function createSandbox() {
 }
 
 test('resolveDshHome follows configured → $DSH_HOME → ~/.dsh', () => {
-  const configured = store.resolveDshHome('D:\\explicit', { DSH_HOME: 'D:\\from-env' })
-  assert.equal(configured, 'D:\\explicit')
-  const fromEnvironment = store.resolveDshHome('   ', { DSH_HOME: 'D:\\from-env' })
-  assert.equal(fromEnvironment, 'D:\\from-env')
+  // The literals must be absolute on the platform that runs the suite; CI runs
+  // on Linux, so a Windows-only path would be resolved against the cwd there.
+  const explicit = process.platform === 'win32' ? 'D:\\explicit' : '/srv/explicit'
+  const envHome = process.platform === 'win32' ? 'D:\\from-env' : '/srv/from-env'
+  const configured = store.resolveDshHome(explicit, { DSH_HOME: envHome })
+  assert.equal(configured, resolve(explicit))
+  const fromEnvironment = store.resolveDshHome('   ', { DSH_HOME: envHome })
+  assert.equal(fromEnvironment, resolve(envHome))
   const fallback = store.resolveDshHome(undefined, {})
   assert.match(fallback, /[\\/]\.dsh$/u)
 })

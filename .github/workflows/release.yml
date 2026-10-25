@@ -13,6 +13,11 @@ jobs:
   publish:
     name: Publish to npm
     runs-on: ubuntu-latest
+    # Exposed through `env` (not inline in an `if`) because `secrets` cannot be
+    # referenced from a step condition. A tag with no NPM_TOKEN configured skips
+    # the publish step instead of turning the release red.
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,6 +35,14 @@ jobs:
         run: npm test
 
       - name: Publish
+        if: env.NPM_TOKEN != ''
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Skip npm publish
+        if: env.NPM_TOKEN == ''
+        run: |
+          echo "::notice title=npm publish skipped::NPM_TOKEN is not configured for this repository."
+          echo "The source tag, tests and checks passed. Add a repository secret"
+          echo "named NPM_TOKEN (an npm automation token) to publish this version."

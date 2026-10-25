@@ -1,0 +1,23 @@
+# Ignore this file yourself — it protects the package from accidental commits.
+
+node_modules/
+*.tgz
+*.tar.gz
+coverage/
+.nyc_output/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Local logs and scratch files
+*.log
+npm-debug.log*
+.env
+.env.*
+.DSH_HOME/
+sandbox/
+tmp/

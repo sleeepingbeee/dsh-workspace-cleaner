@@ -1,0 +1,3 @@
+- insert:
+    - id: workspace-cleaner
+      name: 'dsh-workspace-cleaner'

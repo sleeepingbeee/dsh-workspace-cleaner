@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Workspace Cleanup",
+    "description": "List every workspace and its conversations, then permanently delete the checked ones with their records, logs and caches. Deleting a workspace also deletes all of its conversations."
+  }
+}

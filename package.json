@@ -1,0 +1,63 @@
+{
+  "name": "dsh-workspace-cleaner",
+  "version": "0.1.7",
+  "description": "A DSH Web UI plugin that lists every workspace and conversation in the current profile and deletes the checked ones together with their logs, projection caches and registrations.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sleeepingbeee/dsh-workspace-cleaner.git"
+  },
+  "homepage": "https://github.com/sleeepingbeee/dsh-workspace-cleaner#readme",
+  "bugs": {
+    "url": "https://github.com/sleeepingbeee/dsh-workspace-cleaner/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "lib",
+    "locale",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "icon": "./icon.svg",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "workspace",
+    "session",
+    "cleanup"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "check": "node --check lib/index.js && node --check lib/store.js && node --check lib/client.js",
+    "test": "node test/package.test.mjs && node test/store.test.mjs && node test/http.test.mjs && node test/client.smoke.test.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  }
+}

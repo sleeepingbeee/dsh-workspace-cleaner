@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Documentation
+
+- Rewrote `README.md`: npm-first install paths with version pins, quick start,
+  page layout sketch, deletion pipeline and a "what is NOT deleted" section,
+  security boundaries, known limitations, FAQ and an uninstall section; added
+  npm/Node badges.
+
 ## [0.1.7] - 2026-10-25
 
 ### Changed
